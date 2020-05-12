@@ -4,9 +4,8 @@ public class Food {
     int row;
     int col;
 
-    public Food(int row, int col){
-        this.row = row;
-        this.col = col;
+    public Food(){
+
     }
 
     public int getRow() {
@@ -26,8 +25,9 @@ public class Food {
     }
 
     public int[] RandomPosition(){
-        this.row = (int) (Math.random() * 50);
-        this.col = (int) (Math.random() * 50);
+        this.row = (int) (Math.random() * 25);
+        this.col = (int) (Math.random() * 25);
+        System.out.println(this.row+" "+ this.col);
         //need to check if it clashes with the snake body
         int[] position = {row,col};
         return position;
