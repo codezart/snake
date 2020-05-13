@@ -28,7 +28,7 @@ public class Food {
         this.row = (int) (Math.random() * 25);
         this.col = (int) (Math.random() * 25);
         System.out.println(this.row+" "+ this.col);
-        //need to check if it clashes with the snake body
+        //need to check if it clashes with the snake body.....................................................
         int[] position = {row,col};
         return position;
     }

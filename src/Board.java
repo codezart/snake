@@ -22,7 +22,8 @@ public class Board {
         }catch(Exception e){
             System.out.println("Error: related to the address of images");
         }
-        //initialize the board
+
+        //initializing the board
         board = new ImageView[50][50];
 
         //creating food variable and generating random food position.
@@ -31,12 +32,16 @@ public class Board {
         int food_x = position[0];
         int food_y = position[1];
 
+        Snake snake_body = new Snake(food);
         //creating the board and assigning values on the grid.
         for(int row=0; row< 25; row++){
             for(int col=0; col< 25; col++){
 
                 if(row == food_x && col == food_y)//&& check if it is not on snake body)
                     board[row][col] = new ImageView(apple);
+                else if( snake_body.is_snake_present(row,col) && col != 0){
+                    board[row][col] =  new ImageView(snake_dot);
+                }
                 else
                     board[row][col] = new ImageView(black_square);
 
