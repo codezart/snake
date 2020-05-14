@@ -14,8 +14,6 @@ public class Main extends Application {
 
         GridPane root = new GridPane();
         Board map = new Board(root, Board.BOARDWIDTH,Board.BOARDHEIGHT);
-        root = map.getGridPane();
-
         primaryStage.setScene(new Scene(map.getGridPane(), Board.BOARDHEIGHT, Board.BOARDWIDTH));
         primaryStage.show();
     }

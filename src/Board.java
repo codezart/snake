@@ -15,6 +15,7 @@ public class Board {
     public GridPane root;
 
     public Board(GridPane root, int board_height, int board_width){
+        this.root = root;
         try{
              apple = new Image("images/apple.png");
              snake_dot = new Image("images/dot.png");
@@ -34,6 +35,13 @@ public class Board {
 
         Snake snake_body = new Snake(food);
         //creating the board and assigning values on the grid.
+        generateBoard(food_x,food_y,snake_body);
+        
+        Movement app_run = new Movement(snake_body);
+        app_run.run();
+    }
+
+    private void generateBoard(int food_x, int food_y, Snake snake_body) {
         for(int row=0; row< 25; row++){
             for(int col=0; col< 25; col++){
 
@@ -50,7 +58,6 @@ public class Board {
                 root.add(board[row][col],row,col,1,1);
             }
         }
-        this.root = root;
     }
 
     public GridPane getGridPane(){
