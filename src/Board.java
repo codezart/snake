@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class Board {
 
@@ -13,8 +14,11 @@ public class Board {
     public Image apple;
     public Image snake_dot;
     public GridPane root;
+    Snake snake_body;
+    Food food;
 
     public Board(GridPane root, int board_height, int board_width){
+        this.root = root;
         try{
              apple = new Image("images/apple.png");
              snake_dot = new Image("images/dot.png");
@@ -27,17 +31,29 @@ public class Board {
         board = new ImageView[50][50];
 
         //creating food variable and generating random food position.
-        Food food = new Food();
-        int[] position = food.RandomPosition();
-        int food_x = position[0];
-        int food_y = position[1];
+        food = new Food();
 
-        Snake snake_body = new Snake(food);
+        snake_body = new Snake(food);
         //creating the board and assigning values on the grid.
+        generateBoard();
+
+    }
+    public void startGame(Stage primaryStage){
+        Movement movement = new Movement(snake_body);
+        snake_body = movement.run();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        generateBoard();
+
+    }
+    private void generateBoard() {
         for(int row=0; row< 25; row++){
             for(int col=0; col< 25; col++){
 
-                if(row == food_x && col == food_y)//&& check if it is not on snake body)
+                if(row == food.getRow() && col == food.getCol())//&& check if it is not on snake body)
                     board[row][col] = new ImageView(apple);
                 else if( snake_body.is_snake_present(row,col) && col != 0){
                     board[row][col] =  new ImageView(snake_dot);
@@ -50,7 +66,6 @@ public class Board {
                 root.add(board[row][col],row,col,1,1);
             }
         }
-        this.root = root;
     }
 
     public GridPane getGridPane(){

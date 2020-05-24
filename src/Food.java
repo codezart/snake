@@ -1,35 +1,33 @@
 import java.util.Random;
 
 public class Food {
-    int row;
-    int col;
+    Block food_position;
 
     public Food(){
-
+       food_position = randomPosition();
     }
 
     public int getRow() {
-        return row;
+        return food_position.getX();
     }
 
     public void setRow(int row) {
-        this.row = row;
+        food_position.setX(row);
     }
 
     public int getCol() {
-        return col;
+        return food_position.getY();
     }
 
     public void setCol(int col) {
-        this.col = col;
+        food_position.setY(col);
     }
 
-    public int[] RandomPosition(){
-        this.row = (int) (Math.random() * 25);
-        this.col = (int) (Math.random() * 25);
-        System.out.println(this.row+" "+ this.col);
+    public Block randomPosition(){
+
+        food_position = new Block ((int) (Math.random() * 25), (int) (Math.random() * 25));
+        System.out.println(food_position.getX()+" "+ food_position.getY());
         //need to check if it clashes with the snake body.....................................................
-        int[] position = {row,col};
-        return position;
+        return food_position;
     }
 }
