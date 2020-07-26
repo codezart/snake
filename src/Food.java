@@ -24,12 +24,11 @@ public class Food {
         this.col = col;
     }
 
-    public int[] RandomPosition(){
-        this.row = (int) (Math.random() * 25);
-        this.col = (int) (Math.random() * 25);
-        System.out.println(this.row+" "+ this.col);
+    public void RandomPosition(){
+        this.row = (int) (Math.random() * Board.TOTAL_BLOCKS_ROW);
+        this.col = (int) (Math.random() * Board.TOTAL_BLOCKS_COL);
+        System.out.println(this.row+" -food- "+ this.col);
         //need to check if it clashes with the snake body.....................................................
-        int[] position = {row,col};
-        return position;
+
     }
 }

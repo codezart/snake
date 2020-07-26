@@ -1,77 +1,68 @@
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class Snake {
-    public static int LENGTH;
-    public ArrayList<ArrayList<Integer>> snake_body = new ArrayList<>();
-    public int size = snake_body.size();
+    public ArrayList<Block> snake = new ArrayList<>();
+    public int snake_size = snake.size();
     int head_x, head_y;
 
     public Snake(Food food){
         // initializes a snake head location on board and stores it in a list.
         do{
-            head_x = (int) (Math.random()*25);
-            head_y = (int) (Math.random()*25);
+            head_x = (int) (Math.random()*Board.TOTAL_BLOCKS_COL);
+            head_y = (int) (Math.random()*Board.TOTAL_BLOCKS_ROW);
         }while(food.getRow() == head_x || food.getCol() == head_y);
 
-        //inserting head in snake arraylist
-        snake_body.add(new ArrayList<>());
-        snake_body.get(0).add(head_x);
-        snake_body.get(0).add(head_y);
-        //inserting second piece in snake arraylist
-        snake_body.add(new ArrayList<>());
-        snake_body.get(1).add(head_x - 1);
-        snake_body.get(1).add(head_y );
-        LENGTH = 2;
+        //inserting head and a block in snake arraylist
+        snake.add(new Block(head_x, head_y));
+        snake.add(new Block(head_x - 1, head_y));
+        snake.add(new Block(head_x - 2, head_y));
+
     }
 
+    // Adds new body part when snake eats an apple.
     public void add_snake_body() {
-
-        int[] new_piece_position = retrieve_new_piece_position();
-        snake_body.add(new ArrayList<>());
-        snake_body.get(snake_body.size() - 1).add(new_piece_position[0]);
-        snake_body.get(snake_body.size() - 1).add(new_piece_position[1]);
-        LENGTH++;
-
+        snake.add( retrieve_new_block_position() );
     }
+    // gets new snake body part position.
+    public Block retrieve_new_block_position(){
+        int last_block_x = snake.get(snake_size - 1).getX();
+        int last_block_y = snake.get(snake_size - 1).getY();
+        int second_last_block_x = snake.get(snake_size - 2).getX();
+        int second_last_block_y = snake.get(snake_size - 2).getY();
+        int new_block_x;
+        int new_block_y;
 
-    public int[] retrieve_new_piece_position(){
-
-        int last_piece_x = snake_body.get(size - 1).get(0);
-        int last_piece_y = snake_body.get(size - 1).get(1);
-        int second_last_piece_x = snake_body.get(size - 2).get(0);
-        int second_last_piece_y = snake_body.get(size - 2).get(1);
-        int new_piece_x;
-        int new_piece_y;
-
-        if(second_last_piece_x == last_piece_x){
-            new_piece_x = last_piece_x;
-            new_piece_y = last_piece_y - 1;
+        if(second_last_block_x == last_block_x){
+            new_block_x = last_block_x;
+            new_block_y = last_block_y - 1;
         }
         else{
-            new_piece_x = last_piece_x - 1;
-            new_piece_y = last_piece_y;
+            new_block_x = last_block_x - 1;
+            new_block_y = last_block_y;
         }
-         return new int[]{new_piece_x, new_piece_y};
+         return new Block(new_block_x, new_block_y);
     }
+
+    //checks if a position is occupied by a snake body part.
     public boolean is_snake_present(int row, int col){
         int index = 0;
-        int snake_curr_part_x;
-        int snake_curr_part_y;
+        int snake_curr_block_x;
+        int snake_curr_block_y;
 
-        while(index <snake_body.size()){
-            snake_curr_part_x = snake_body.get(index).get(0);
-            snake_curr_part_y = snake_body.get(index).get(1);
+        while(index < snake.size()){
+            snake_curr_block_x = snake.get(index).getX();
+            snake_curr_block_y = snake.get(index).getY();
 
-            if( snake_curr_part_x == row && snake_curr_part_y == col)
+            if( snake_curr_block_x == row && snake_curr_block_y == col)
                 return true;
             index++;
         }
         return false;
     }
-    //GETTER and SETTER METHODS
-    public ArrayList<ArrayList<Integer>> getSnake_body() {
-        return snake_body;
+
+    //GETTER & SETTER METHODS
+    public ArrayList<Block> getSnake() {
+        return snake;
     }
 
     public int getHead_x() {
@@ -88,5 +79,9 @@ public class Snake {
 
     public void setHead_y(int head_y) {
         this.head_y = head_y;
+    }
+
+    public Block returnHead(){
+        return new Block(head_x, head_y);
     }
 }
