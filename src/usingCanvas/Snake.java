@@ -1,13 +1,12 @@
-package freshstart;
+package usingCanvas;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 
 public class Snake{
    ArrayList<Block> snakeBody = new ArrayList<>();
    Block head;
-   Direction direction = Direction.RIGHT;
+   Direction direction;
    public Block b;
    public Block temp;
    int new_x_position;
@@ -18,8 +17,8 @@ public class Snake{
       head = new Block(headX, headY);
       //adds 3 snake body blocks
       snakeBody.add(head);
-      snakeBody.add(new Block(headX+1, headY));
-      snakeBody.add(new Block(headX+2, headY));
+      snakeBody.add(new Block(headX-1, headY));
+      snakeBody.add(new Block(headX-2, headY));
 
    }
    public Direction getDirection(){ return direction;}
@@ -27,67 +26,72 @@ public class Snake{
 
    //checks if a position is occupied by a snake body part.
    public boolean is_snake_present(int row, int col){
-      int index = 0;
+      int i = 0;
       int snake_curr_block_x;
       int snake_curr_block_y;
 
-      while(index < snakeBody.size()){
-         snake_curr_block_x = snakeBody.get(index).getCol();
-         snake_curr_block_y = snakeBody.get(index).getRow();
+      while(i < snakeBody.size()){
+         snake_curr_block_x = snakeBody.get(i).getCol();
+         snake_curr_block_y = snakeBody.get(i).getRow();
 
          if( snake_curr_block_x == col && snake_curr_block_y == row)
             return true;
-         index++;
+         i++;
+
       }
       return false;
    }
 
-   public void move_RIGHT(){
+   public boolean move_RIGHT(){
       new_x_position = head.getCol() + 1;
       new_y_position = head.getRow() ;
 
       if(!check_if_snake_is_in_bounds(new_x_position, new_y_position))
-         return ;
+         return false;
 
        updateSnakePosition(new_x_position, new_y_position);
+       return true;
    }
 
-   public void move_LEFT(){
+   public boolean move_LEFT(){
       new_x_position = head.getCol() - 1;
       new_y_position = head.getRow() ;
 
       if(!check_if_snake_is_in_bounds(new_x_position, new_y_position))
-         return ;
+         return false;
 
        updateSnakePosition(new_x_position, new_y_position);
+
+       return true;
    }
-   public void move_UP(){
+   public boolean move_UP(){
       new_x_position = head.getCol();
       new_y_position = head.getRow() - 1;
 
       if(!check_if_snake_is_in_bounds(new_x_position, new_y_position))
-         return ;
+         return false;
 
        updateSnakePosition(new_x_position, new_y_position);
-
+      return true;
    }
-   public void move_DOWN(){
+   public boolean move_DOWN(){
       new_x_position = head.getCol() ;
       new_y_position = head.getRow() + 1;
 
       if(!check_if_snake_is_in_bounds(new_x_position, new_y_position))
-         return ;
+         return false;
 
        updateSnakePosition(new_x_position, new_y_position);
+       return true;
    }
 
    public boolean check_if_snake_is_in_bounds(int x, int y){
 
-      return x >= 0 && x <= Board.TOTAL_BLOCKS_COL && y >= 0 && y <= Board.TOTAL_BLOCKS_ROW;
+      return x > -1 && x < Board.TOTAL_BLOCKS_COL && y > -1 && y < Board.TOTAL_BLOCKS_ROW;
    }
 
    public void updateSnakePosition(int new_x_position, int new_y_position){
-      b = head;
+      b = new Block(head.getCol(),head.getRow());
       snakeBody.set(0, new Block(new_x_position, new_y_position));
       head.setCol(new_x_position);
       head.setRow(new_y_position);
@@ -114,8 +118,8 @@ public class Snake{
          newBodyX = lastBodyX-1;
       }
       else{
-         newBodyX = lastBodyX;
-         newBodyY = lastBodyY + 1;
+         newBodyX = lastBodyX+1;
+         newBodyY = lastBodyY;
       }
       snakeBody.add(new Block(newBodyX,newBodyY));
    }
@@ -124,7 +128,7 @@ public class Snake{
       int headY = head.getRow();
       int i=1;
       while(i < snakeBody.size()){
-         if(headX == snakeBody.get(i).getCol() && headY == snakeBody.get(i).getCol())
+         if(headX == snakeBody.get(i).getCol() && headY == snakeBody.get(i).getRow())
             return true;
          ++i;
       }

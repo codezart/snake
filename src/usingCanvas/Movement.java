@@ -1,4 +1,4 @@
-package freshstart;
+package usingCanvas;
 
 public class Movement {
     public Direction direction;

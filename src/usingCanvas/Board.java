@@ -1,7 +1,6 @@
-package freshstart;
+package usingCanvas;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class Board {
@@ -36,7 +35,7 @@ public class Board {
                     gc.setFill(board[row][col]);
                     gc.fillRect(col *BLOCKWIDTH,row*BLOCKWIDTH,BLOCKWIDTH, BLOCKHEIGHT);
                 }
-                else if( col !=0 && snake.is_snake_present(row,col) ){
+                else if( snake.is_snake_present(row,col) ){
                     board[row][col] =  white;
                     gc.setFill(board[row][col]);
                     gc.fillRect(col*BLOCKWIDTH,row*BLOCKWIDTH,BLOCKWIDTH, BLOCKHEIGHT);
